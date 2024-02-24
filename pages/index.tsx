@@ -18,7 +18,7 @@ export default function Home() {
       >
         <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
           Material UI - Next.js example in TypeScript
-          <Button variant="contained">Contained</Button>
+          <Button variant="contained" href="/login"></Button>
         </Typography>
 
       </Box>

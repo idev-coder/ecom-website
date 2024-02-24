@@ -43,7 +43,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, textAlign: 'center', width: '80%' }}>
             <TextField
               margin="normal"
               required
@@ -64,10 +64,16 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+            <Grid container>
+              <Grid item>
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  sx={{ float: 'left', textAlign: 'left' }} // Set to left
+                  label="Remember me"
+                />
+              </Grid>
+            </Grid>
+
             <Button
               type="submit"
               fullWidth
@@ -76,18 +82,14 @@ export default function SignIn() {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  {"Forgot password ?"}
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Link href="/signup" variant="body2">
+                {"Sign Up"}
+              </Link>
+              <Link href="#" variant="body2">
+                {"Forgot password?"}
+              </Link>
+            </Box>
           </Box>
         </Box>
       </Container>
