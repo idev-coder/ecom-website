@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -37,9 +37,8 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <AccountCircleIcon sx={{ m: 1 , fontSize:50}}>
+          </AccountCircleIcon>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
@@ -102,7 +101,7 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="center">
+            <Grid container>
               <Grid item>
                 <Link href="/login" variant="body2">
                   Already have an account? Sign in
