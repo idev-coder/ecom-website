@@ -23,6 +23,9 @@ export default async function handler(req: NextApiRequest,
             let token = await signAndSaveTokens(data)
             if (token)
                 res.status(200).json({ ...token });
+            else{
+                res.status(400)
+            }
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: 'Something went wrong!' });

@@ -8,22 +8,75 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { redirect } from 'next/dist/server/api-utils';
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    if (!data.get('username')) {
+      Swal.fire({
+        icon: "warning",
+        title: "You have an error",
+        text: "Your username is empty",
+      });
+    }
+    else if (!data.get('password')) {
+      Swal.fire({
+        icon: "warning",
+        title: "You have an error",
+        text: "Your password is empty",
+      });
+    }
+    else {
+      try {
+        const response = await axios.post('http://localhost:3000/api/signin', {
+          data:{
+            "username": data.get('username'),
+            "password": data.get('password')
+          }
+        });
+        const accessToken = response.data.accessToken;
+        if (accessToken) {
+          localStorage.setItem('accesstoken', accessToken);
+      
+          Swal.fire({
+            title: "Login Success",
+            text: "You want to go to Homepage?",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Confirm"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = 'http://localhost:3000/adminpage';
+            }
+          });
+        } else{
+            Swal.fire({
+              title:"You have an error",
+              icon:"error",
+              text: "You want to go to Homepage?",
+            })
+        }
+      } catch (error) {
+          Swal.fire({
+            title:"You have an error",
+            icon:"error",
+            text: "Your username or password incorrect",
+          })
+      }
+    }
+
   };
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -37,7 +90,7 @@ export default function SignIn() {
             alignItems: 'center',
           }}
         >
-          <LockRounded sx={{ m: 1 , fontSize:50}}>
+          <LockRounded sx={{ m: 1, fontSize: 50 }}>
           </LockRounded>
           <Typography component="h1" variant="h5">
             Sign in
@@ -47,10 +100,10 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
             />
             <TextField
