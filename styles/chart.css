@@ -1,0 +1,11 @@
+
+@media screen and (max-width: 600px) {
+    .-ContainerChart {
+        
+    }
+
+        .-ContainerChart > div{
+            height:10;
+            width:100;
+        }
+}
