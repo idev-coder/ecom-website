@@ -42,6 +42,13 @@ const Home: React.FC = () => {
     return "1fr 1fr 1fr 1fr 1fr 1fr";
   };
 
+  const GridTemplateColumnsBrandSlider = () => {
+    if (isExtraSmallScreen) return 3;
+    if (isSmallScreen) return 3;
+    if (isMediumScreen) return 3;
+    return 6;
+  };
+
   const GridTemplateColumnsCardCategory = () => {
     const isExtraExtraSmallScreen = useMediaQuery("(max-width:370px)");
     if (isExtraExtraSmallScreen) return "1fr 1fr";
@@ -248,7 +255,7 @@ const Home: React.FC = () => {
           <Typography variant="h5">E-Mall</Typography>
         </Box>
         <Swiper
-          slidesPerView={6}
+          slidesPerView={GridTemplateColumnsBrandSlider()}
           autoplay={{
             delay: 3500,
             disableOnInteraction: false,
