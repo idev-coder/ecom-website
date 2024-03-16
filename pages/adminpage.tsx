@@ -1,21 +1,17 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+"use client";
+import React from "react";
 import Navbar from "@/component/navbar";
 import Chart from "@/component/chart";
 import BasicTable from "@/component/table";
-import { Box } from "@mui/material";
-import MultiActionAreaCard from "@/component/card";
+import MultiActionAreaCard from "@/component/cardAdminDashBoard";
+import { useEffect } from "react";
+import Router from "next/router";
 
-export default function AdminPage() {
-  const router = useRouter();
-
+const AdminPage: React.FC = () => {
   useEffect(() => {
-    const accessToken = localStorage.getItem("accesstoken");
-    if (!accessToken) {
-      router.push("/login");
-    }
+    const userAccessToken = localStorage.getItem("userAccessToken");
+    if (!userAccessToken) Router.push("/login");
   }, []);
-
   return (
     <>
       <Navbar />
@@ -24,4 +20,6 @@ export default function AdminPage() {
       <BasicTable />
     </>
   );
-}
+};
+
+export default AdminPage;

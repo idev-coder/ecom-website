@@ -7,7 +7,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import theme from "../styles/theme";
 import "../styles/sliderStyle.css";
 import "../styles/chart.css";
-
+import "../styles/carousel.css";
+import "@/styles/cardProductInfo.css";
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
   return (

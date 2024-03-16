@@ -22,6 +22,7 @@
     "@mui/x-charts": "^6.19.5",
     "axios": "^1.6.7",
     "font-awesome": "^4.7.0",
+    "framer-motion": "^11.0.13",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.3.0",
     "mui-image-slider": "^1.0.10",

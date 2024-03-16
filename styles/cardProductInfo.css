@@ -1,0 +1,7 @@
+.cardProductInfo .MuiTypography-body2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+}

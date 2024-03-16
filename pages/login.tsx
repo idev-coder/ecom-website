@@ -17,7 +17,7 @@ import Router from "next/router";
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
+const LoginPage: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -43,7 +43,7 @@ export default function SignIn() {
         });
         const accessToken = response.data.accessToken;
         if (accessToken) {
-          localStorage.setItem("accesstoken", accessToken);
+          localStorage.setItem("userAccessToken", accessToken);
 
           Swal.fire({
             title: "Login Success",
@@ -146,4 +146,6 @@ export default function SignIn() {
       </Container>
     </ThemeProvider>
   );
-}
+};
+
+export default LoginPage;

@@ -14,9 +14,13 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import Swal from "sweetalert2";
 import Router from "next/router";
+import Link from "next/link";
 
 const pages = ["Products", "Pricing"];
-const settings = [{ label: "Logout", onClick: logOuthandle }];
+const settings = [
+  { label: "Logout", onClick: logOuthandle },
+  { label: "DashBoard", onClick: () => Router.push("/adminpage") },
+];
 
 function logOuthandle() {
   Swal.fire({
@@ -29,7 +33,7 @@ function logOuthandle() {
     confirmButtonText: "Yes ",
   }).then((result) => {
     if (result.isConfirmed) {
-      localStorage.removeItem("accesstoken");
+      localStorage.removeItem("userAccessToken");
       Swal.fire({
         title: "Logout success",
         text: "You will not aviable to this page",
@@ -80,11 +84,11 @@ function ResponsiveAppBar() {
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".1rem",
-              color: "inherit",
-              textDecoration: "none",
             }}
           >
-            E-commerce
+            <Link href="/" style={{ color: "inherit", textDecoration: "none" }}>
+              E-commerce
+            </Link>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
