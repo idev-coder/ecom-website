@@ -257,7 +257,7 @@ const Home: React.FC = () => {
         <Swiper
           slidesPerView={GridTemplateColumnsBrandSlider()}
           autoplay={{
-            delay: 3500,
+            delay: 4000,
             disableOnInteraction: false,
           }}
           modules={[Autoplay, Pagination, Navigation]}
@@ -283,6 +283,7 @@ const Home: React.FC = () => {
         <Box
           sx={{
             display: "grid",
+            gap: 2,
             gridTemplateColumns: GridTemplateColumnsCardCategory(),
           }}
         >

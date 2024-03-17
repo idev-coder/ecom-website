@@ -10,7 +10,7 @@ import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
 export default function MultiActionAreaCard() {
-  const isMediumScreen = useMediaQuery("(max-width:700px)");
+  const isMediumScreen = useMediaQuery("(max-width:890px)");
   const isSmallScreen = useMediaQuery("(max-width:380px)");
 
   return (
@@ -24,12 +24,12 @@ export default function MultiActionAreaCard() {
           : "1fr 1fr 1fr 1fr",
         placeContent: "center",
         alignContent: "center",
-        columnGap: 2,
+        gap: 0.5,
         my: 3,
-        p: 2,
+        p: 0.5,
       }}
     >
-      <Card sx={{ border: "1px solid black", my: 1, background: "#FAFDD6" }}>
+      <Card sx={{ border: "1px solid black", background: "#FAFDD6" }}>
         <CardActionArea>
           <CardMedia
             sx={{
@@ -58,7 +58,7 @@ export default function MultiActionAreaCard() {
           </CardContent>
         </CardActionArea>
       </Card>
-      <Card sx={{ border: "1px solid black", my: 1, background: "#FAFDD6" }}>
+      <Card sx={{ border: "1px solid black", background: "#FAFDD6" }}>
         <CardActionArea>
           <CardMedia
             sx={{
@@ -87,7 +87,7 @@ export default function MultiActionAreaCard() {
           </CardContent>
         </CardActionArea>
       </Card>
-      <Card sx={{ border: "1px solid black", my: 1, background: "#FAFDD6" }}>
+      <Card sx={{ border: "1px solid black", background: "#FAFDD6" }}>
         <CardActionArea>
           <CardMedia
             sx={{
@@ -116,7 +116,7 @@ export default function MultiActionAreaCard() {
           </CardContent>
         </CardActionArea>
       </Card>
-      <Card sx={{ border: "1px solid black", my: 1, background: "#FAFDD6" }}>
+      <Card sx={{ border: "1px solid black", background: "#FAFDD6" }}>
         <CardActionArea>
           <CardMedia
             sx={{
@@ -127,7 +127,7 @@ export default function MultiActionAreaCard() {
           >
             <PeopleAltIcon
               sx={{
-                fontSize: 40,
+                fontSize: 35,
                 background: "#539165",
                 borderRadius: "50%",
                 marginRight: isMediumScreen ? 4 : 10,
