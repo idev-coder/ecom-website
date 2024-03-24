@@ -4,11 +4,13 @@ import { AppProps } from "next/app";
 import { AppCacheProvider } from "@mui/material-nextjs/v14-pagesRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import theme from "../styles/theme";
-import "../styles/sliderStyle.css";
-import "../styles/chart.css";
-import "../styles/carousel.css";
+import theme from "@/styles/theme";
+import "@/styles/sliderStyle.css";
+import "@/styles/chart.css";
+import "@/styles/carousel.css";
 import "@/styles/cardProductInfo.css";
+import "@/styles/formAddProduct.css";
+
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
   return (
