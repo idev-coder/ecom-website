@@ -18,7 +18,7 @@ interface FormData {
   name: string;
   price: number | "";
   description: string;
-  imageURL: string;
+  imageURL: string | null;
 }
 
 const AddProductPage: React.FC = () => {
@@ -93,26 +93,25 @@ const AddProductPage: React.FC = () => {
 
         if (snapshot) {
           const downloadURL = await getDownloadURL(snapshot.ref);
-          await setFormData((prevState) => ({
-            ...prevState,
-            imageURL: downloadURL,
-          }));
-          imageUploadSuccess = true;
+          formData.imageURL = downloadURL;
+          if (formData.imageURL === null) {
+            return;
+          } else {
+            imageUploadSuccess = true;
+            const response = await axios.post("/api/product", {
+              data: {
+                name: formData.name,
+                price: formData.price,
+                description: formData.description,
+                imageURL: formData.imageURL,
+              },
+            });
+
+            if (response.status === 200) {
+              productUploadSuccess = true;
+            }
+          }
         }
-      }
-
-      // Now upload product data
-      const response = await axios.post("/api/product", {
-        data: {
-          name: formData.name,
-          price: formData.price,
-          description: formData.description,
-          imageURL: formData.imageURL,
-        },
-      });
-
-      if (response.status === 200) {
-        productUploadSuccess = true;
       }
     } catch (error) {
       console.error("Error uploading image or adding product:", error);
