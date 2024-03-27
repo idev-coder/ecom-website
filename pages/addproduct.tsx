@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  FormEvent,
-  useState,
-  useRef,
-  useEffect,
-} from "react";
+import React, { ChangeEvent, useState, useRef, useEffect } from "react";
 import ResponsiveAppBar from "@/component/navbar";
 import {
   Box,
@@ -15,23 +9,29 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import axios from "axios";
-import { uploadFile, getFile } from "@/lib/uploadImage";
+import { initializeFirebaseStorage } from "@/firebase/firebase";
+import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
+import Swal from "sweetalert2";
+import Router from "next/router";
 
 interface FormData {
   name: string;
   price: number | "";
   description: string;
+  imageURL: string;
 }
 
 const AddProductPage: React.FC = () => {
-  const [image, setImage] = useState<File | null>(null);
+  const [imageUpload, setImageUploaded] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>("/images/add.png");
-  const [imageHeight, setImageHeight] = useState<number>(300);
-  const [imageWidth, setImageWidth] = useState<number>(300);
+  let imageUploadSuccess = false;
+  let productUploadSuccess = false;
+
   const [formData, setFormData] = useState<FormData>({
     name: "",
     price: "",
     description: "",
+    imageURL: "",
   });
 
   const inputImageRef = useRef<HTMLInputElement | null>(null);
@@ -47,11 +47,9 @@ const AddProductPage: React.FC = () => {
     const files = event.target.files;
     if (files && files.length > 0) {
       const file = files[0];
-      setImage(file);
+      setImageUploaded(file);
       const imageUrl = URL.createObjectURL(file);
       await setImageUrl(imageUrl);
-      setImageHeight(200);
-      setImageWidth(300);
     }
   };
 
@@ -84,13 +82,61 @@ const AddProductPage: React.FC = () => {
   };
 
   const submitFormHandle = async () => {
+    const storage = initializeFirebaseStorage();
     try {
-      const folder = "user/";
-      const imagePath = await uploadFile(image, folder);
-      const imageUrl = await getFile(imagePath);
-      uploadFile(imageUrl, folder);
+      if (imageUpload !== null) {
+        const storageRef = ref(storage, "images/" + self.crypto.randomUUID());
+
+        const snapshot = await uploadBytes(storageRef, imageUpload, {
+          contentType: imageUpload.type,
+        });
+
+        if (snapshot) {
+          const downloadURL = await getDownloadURL(snapshot.ref);
+          await setFormData((prevState) => ({
+            ...prevState,
+            imageURL: downloadURL,
+          }));
+          imageUploadSuccess = true;
+        }
+      }
+
+      // Now upload product data
+      const response = await axios.post("/api/product", {
+        data: {
+          name: formData.name,
+          price: formData.price,
+          description: formData.description,
+          imageURL: formData.imageURL,
+        },
+      });
+
+      if (response.status === 200) {
+        productUploadSuccess = true;
+      }
     } catch (error) {
-      console.log(`You have an error ${error}`);
+      console.error("Error uploading image or adding product:", error);
+    }
+
+    // Show success message if both image upload and product upload are successful
+    if (imageUploadSuccess && productUploadSuccess) {
+      Swal.fire({
+        title: "Successfully",
+        icon: "success",
+        text: "Add product successfully",
+        confirmButtonColor: "#3085d6",
+        showConfirmButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Router.push("/");
+        }
+      });
+    } else {
+      Swal.fire({
+        title: "Failed",
+        icon: "error",
+        text: "Add product failed please try again",
+      });
     }
   };
 
@@ -101,7 +147,7 @@ const AddProductPage: React.FC = () => {
         event.preventDefault();
         const file = event.dataTransfer?.files?.[0];
         if (file) {
-          setImage(file);
+          setImageUploaded(file);
           const imageUrl = URL.createObjectURL(file);
           setImageUrl(imageUrl);
         }

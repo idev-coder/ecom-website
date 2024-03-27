@@ -1,4 +1,3 @@
-import signAndSaveTokens from "@/lib/signAndSaveTokens";
 import { MongoClient } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -10,25 +9,27 @@ export default async function handler(
     const { data } = req.body;
 
     const client = new MongoClient(
-      `mongodb+srv://${data.username}:${data.password}@${process.env.MONGODB_HOST}/`
+      `mongodb+srv://TestUser:O123456@${process.env.MONGODB_HOST}/`
     );
 
     try {
       const mongo = await client.connect();
       const db = await mongo.db(`${process.env.DATABASE_NAME}`);
-      const collection = db.collection("users");
-      const userData = await collection
-        .find({ username: data.username })
-        .toArray();
-      data.role = userData[0].role;
-      let token = await signAndSaveTokens(data);
-      if (token) res.status(200).json({ ...token });
-      else {
-        res.status(400);
+      const collection = db.collection("products");
+      const insertResult = await collection.insertOne({
+        name: data.name,
+        price: data.price,
+        description: data.description,
+        imageURL: data.imageURL,
+      });
+      if (insertResult) {
+        res.status(200).json("Add product successfully" + data.imageURL);
+      } else {
+        res.status(500).json("upload to mongodb failed");
       }
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Something went wrong!" });
+      res.status(400).json({ message: `some thing went wrong ${error}` });
     } finally {
       await client.close();
     }

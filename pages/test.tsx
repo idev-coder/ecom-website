@@ -1,30 +1,47 @@
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import * as React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-import { Swiper, SwiperSlide } from "swiper/react";
+interface file {
+  file: File;
+}
 
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
+const TestPage: React.FC = () => {
+  const [imageUpload, setImageUpload] = useState<File | null>(null);
 
-const TestPage = () => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      setImageUpload(file);
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!imageUpload) {
+      console.error("No file selected.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("image", imageUpload);
+
+      // Perform axios post request with the form data
+      const response = await axios.post("/product", formData);
+
+      console.log("File uploaded successfully:", response.data);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+  };
+
   return (
-    <Swiper
-      // install Swiper modules
-      modules={[Navigation, Pagination, Scrollbar, A11y]}
-      spaceBetween={50}
-      draggable={true}
-      slidesPerView={1}
-      navigation
-      scrollbar={{ draggable: true }}
-    >
-      <SwiperSlide>Slide 1</SwiperSlide>
-      <SwiperSlide>Slide 2</SwiperSlide>
-      <SwiperSlide>Slide 3</SwiperSlide>
-      <SwiperSlide>Slide 4</SwiperSlide>
-      ...
-    </Swiper>
+    <>
+      <section>
+        <input type="file" onChange={handleFileChange} />
+        <button onClick={handleUpload}>Upload</button>
+      </section>
+    </>
   );
 };
 
